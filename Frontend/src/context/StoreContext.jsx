@@ -8,7 +8,7 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
 
     const [cardItems,setCardItems] = useState({});
-    const url = "http://localhost:4000";
+    const url = import.meta.env.VITE_BACKEND_URL;
     const [token,setToken] = useState("");
     const [food_list,setFood_List] = useState([]);
 
@@ -25,7 +25,8 @@ const StoreContextProvider = (props) => {
 
     const CartFoodItems = async(token) => {
         if(token){
-            const response = await axios.get(url+"/api/cart/get",{headers : {token}});
+            const response = await axios.get(url+"/api/cart/get",{headers : token});
+            console.log(cardItems);
             setCardItems(response.data.message);
         }
     }
@@ -33,7 +34,6 @@ const StoreContextProvider = (props) => {
     const fetchFoodlist = async ()=>{
         const response = await axios.get(`${url}/api/food/list`);
         setFood_List(response.data.data);
-        console.log(food_list);
     }
 
     const addToCart = async(itemId) => {
@@ -43,14 +43,14 @@ const StoreContextProvider = (props) => {
             setCardItems((prev) =>({...prev,[itemId]:prev[itemId]+1}))
         }
         if(token){
-            await axios.post(url+"/api/cart/add",{itemId},{headers : {token}})
+            await axios.post(url+"/api/cart/add",{itemId},{headers : token})
         }
     }
 
     const removeFromCart = async (itemId) => {
         setCardItems((prev) =>({...prev,[itemId]:prev[itemId]-1}));
         if(token){
-           const response =  await axios.post(url+"/api/cart/remove",{itemId},{headers : {token}});
+           const response =  await axios.post(url+"/api/cart/remove",{itemId},{headers :token});
            console.log(response);
         }
     }
@@ -66,9 +66,9 @@ const StoreContextProvider = (props) => {
         return totalAmount
     }
 
-    useEffect(() => {
-        console.log(cardItems);
-    },[cardItems]);
+    // useEffect(() => {
+    //     console.log(cardItems);
+    // },[cardItems]);
 
     const contextValue = {
         food_list,

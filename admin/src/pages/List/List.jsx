@@ -4,7 +4,7 @@ import "./List.css";
 import { toast } from "react-toastify";
 
 const List = () => {
-  const url = "http://localhost:4000";
+  const url = import.meta.env.VITE_BACKEND_URL;
   const [list, setlist] = useState([]);
   useEffect(() => {
     fetchdata();

@@ -3,13 +3,15 @@ import "./LoginPopus.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios"
+import {  toast } from 'react-toastify';
+
 
 
 // eslint-disable-next-line react/prop-types
 const LoginPopus = ({ setShowLogin }) => {
   const [currState, setCurrState] = useState("Login");
   // const url = useContext(StoreContext);
-  const url = "http://localhost:4000";
+  const url  =  import.meta.env.VITE_BACKEND_URL;
   const {setToken,token} = useContext(StoreContext);
   const [Userdata, setUserdata] = useState({
     name: "",
@@ -34,6 +36,7 @@ const LoginPopus = ({ setShowLogin }) => {
     const response = await axios.post(newUrl,Userdata);
     console.log(response);
     if(response.data.success){
+      toast.success("User Logged In");
       setToken(response.data.token);
       localStorage.setItem("token",response.data.token);
       console.log(token);
@@ -45,7 +48,7 @@ const LoginPopus = ({ setShowLogin }) => {
       })
       console.log("ok");
     } else{
-      alert(response.data.message);
+      toast.error(response.data.message);
     }
   }
   return (

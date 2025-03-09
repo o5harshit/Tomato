@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="footer-content">
             <div className="footer-content-left">
                 <img src={assets.logo} alt="" />
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste aliquid magnam molestias consectetur aperiam ducimus harum pariatur corporis consequuntur architecto. Natus unde quam repellat, inventore qui enim atque delectus deserunt.</p>
+                <p>Satisfy your cravings with delicious flavors! 🍔🍕 From mouth-watering burgers to cheesy pizzas, we've got it all. Order now and enjoy fresh, hot, and tasty food delivered fast! 🚀🍟</p>
                 <div className="footer-social-icons">
                     <img src={assets.facebook_icon} alt="fackbook-icon" /><img src={assets.twitter_icon} alt="twitter-icon" /><img src={assets.linkedin_icon} alt="linkedin-icon" />
                 </div>

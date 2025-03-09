@@ -18,12 +18,12 @@ export const loginUser = async (req,res) => {
         }
        const isMatch =  await bcrypt.compare(password,user.password);
        if(!isMatch){
-        res.json({success:false,message:"Password is incorrect"})
+        return res.json({success:false,message:"Password is incorrect"})
        } 
        const token = CreateToken(user._id)
-       res.json({success:true,token});
+       return res.json({success:true,token});
     } catch(err) {
-        res.json({success:false,message:err});
+       return  res.json({success:false,message:err});
     }
 }
 
@@ -51,8 +51,8 @@ export const registerUser = async (req,res) => {
         });
        const user =  await User.save();
        const token = CreateToken(user._id)
-       res.json({success : true,token});
+       return res.json({success : true,token});
     } catch(err) {
-        res.json({success : false,message : err});
+        return res.json({success : false,message : err});
     }
 }

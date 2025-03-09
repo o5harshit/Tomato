@@ -4,6 +4,7 @@ import { StoreContext } from "../../context/StoreContext";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Placeorder = () => {
   const { getTotalCartAmount, token, food_list, cardItems, url } =
@@ -23,8 +24,10 @@ const Placeorder = () => {
 
   useEffect(() => {
     if (!token) {
+      toast.error("Login first");
       navigate("/cart");
     } else if (getTotalCartAmount() === 0) {
+      toast.error("Please add something to cart");
       navigate("/cart");
     }
   }, [token]);
@@ -37,6 +40,7 @@ const Placeorder = () => {
   const placeOrder = async (event) => {
     event.preventDefault();
     let orderItems = [];
+    console.log(food_list);
     console.log(cardItems);
     food_list.forEach((item) => {
       if (cardItems[item._id] && cardItems[item._id] > 0) {
@@ -50,15 +54,20 @@ const Placeorder = () => {
       amount: getTotalCartAmount() + 2,
     };
     console.log(orderData);
+    console.log(url + "/api/order/place");
     let response = await axios.post(url + "/api/order/place", orderData, {
       headers: { token },
     });
+    console.log(response);
     if (response.data.success) {
       const { session_url } = response.data;
       console.log(session_url);
-      window.location.replace(session_url);
+      toast.success("Your order is Placed ✅");
+      setTimeout(() => {
+        window.location.replace(session_url);
+      }, 1000);
     } else {
-      alert("Error");
+      toast.error("Something went wrong try again");
     }
   };
   return (
@@ -117,33 +126,33 @@ const Placeorder = () => {
             placeholder="State"
           />
         </div>
-      </div>
-      <div className="multi-fields">
+        <div className="multi-fields">
+          <input
+            required
+            type="text"
+            value={data.zipcode}
+            onChange={handleFormData}
+            name="zipcode"
+            placeholder="Zip Code"
+          />
+          <input
+            required
+            type="text"
+            name="country"
+            value={data.country}
+            onChange={handleFormData}
+            placeholder="Country"
+          />
+        </div>
         <input
           required
           type="text"
-          value={data.zipcode}
+          value={data.phone}
           onChange={handleFormData}
-          name="zipcode"
-          placeholder="Zip Code"
-        />
-        <input
-          required
-          type="text"
-          name="country"
-          value={data.country}
-          onChange={handleFormData}
-          placeholder="Country"
+          name="phone"
+          placeholder="Phone"
         />
       </div>
-      <input
-        required
-        type="text"
-        value={data.phone}
-        onChange={handleFormData}
-        name="phone"
-        placeholder="Phone"
-      />
       <div className="place-order-right">
         <div className="cart-total">
           <h2>Cart Totals</h2>
@@ -164,7 +173,6 @@ const Placeorder = () => {
                 💲{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
               </b>
             </div>
-            <hr />
           </div>
           <button type="submit">PROCEED TO Payment</button>
         </div>

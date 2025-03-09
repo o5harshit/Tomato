@@ -24,6 +24,16 @@ main().then(() => {
     console.log(err);
 })
 
+// CORS 
+const corsOptions = {
+    origin: [process.env.FRONT_URL,ADMIN_URL],// Allow your front-end's origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization','token'], // Include Content-Type
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+
 // api endpoint
 
 app.use("/api/food",foodRouter);
@@ -32,14 +42,9 @@ app.use("/api/cart",CartRouter);
 app.use("/api/order",OrderRouter);
 
 //middleware 
-const corsOptions = {
-    origin: ["http://localhost:5173", "http://localhost:5174"], // Allow your front-end's origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization','token'], // Include Content-Type
-    credentials: true
-};
+
 app.use(express.json())
-app.use(cors(corsOptions));
+
 
 app.listen(port,() => {
     console.log(`App is listening on port ${port}`);
@@ -48,6 +53,3 @@ app.listen(port,() => {
 app.get("/",(req,res) => {
     res.send("hii");
 })
-
-
-//mongodb+srv://Greatstack:6387222071@cluster0.sugkv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
