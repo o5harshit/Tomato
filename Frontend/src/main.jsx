@@ -8,6 +8,7 @@ import PlaceOrder from "../src/Pages/placeOrder/Placeorder";
 import App from "./App";
 import Verify from "./Pages/Verify/Verify";
 import Myorders from "./Pages/Myorders/Myorders";
+import { Navigate } from "react-router-dom";
 const RoutesPages = createBrowserRouter([
   {
     path: "/",
@@ -36,6 +37,7 @@ const RoutesPages = createBrowserRouter([
       }
     ],
   },
+  { path: "*", element: <Navigate to="/" replace /> },
 ]);
 
 createRoot(document.getElementById("root")).render(

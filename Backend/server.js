@@ -25,14 +25,14 @@ main().then(() => {
 })
 
 // CORS 
-const corsOptions = {
-    origin: [process.env.FRONT_URL,ADMIN_URL],// Allow your front-end's origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization','token'], // Include Content-Type
-    credentials: true
-};
+// const corsOptions = {
+//     origin: [process.env.FRONT_URL,ADMIN_URL],// Allow your front-end's origin
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     allowedHeaders: ['Content-Type', 'Authorization','token'], // Include Content-Type
+//     credentials: true
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // api endpoint
 
